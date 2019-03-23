@@ -1,3 +1,5 @@
+<a href="https://badge.fury.io/rb/enum-transition"><img src="https://badge.fury.io/rb/enum-transition.svg" alt="Gem Version" height="18"></a>
+
 # Enum::Transition
 Active Record ENUM based state machine. Whether you can control enum transation from one state to another state. Suppose you have an user model and you want to once user has been rejected he can't be verified, You can achive this job easily using this library.
 

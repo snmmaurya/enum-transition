@@ -23,21 +23,37 @@ $ gem install enum-transition
 ## Usage
 
 ```ruby
-# You have an user model and you want status transition should be verified or rejected from only initial
+
+# You have an user model and you want to specify status transitions: initial to verified, initial to rejected and rejected to initial
+
 
 class User
   include Enum::Transition
 
   enum status: {initial: 0, verified: 1, rejected: 2]
 
-  # Enum transition
+  # Specify enum columns
   enum_columns [:status]
+
+  # Specify (allow state transition)
   enum_transitions :initial, [:verified, :rejected]
+  enum_transitions :rejected, [:initial]
 end
 
 user = User.create(status: :initial)
-user.verified!
+
+
+# IF user status is initial
+user.verified! # Okay
+user.rejected! # Okay
+
+# IF user status is verified
 user.rejected! # ActiveRecord::RecordInvalid: Validation failed: Status can't be changed from verified to rejected
+user.initial! # ActiveRecord::RecordInvalid: Validation failed: Status can't be changed from verified to initial
+
+# IF user status is rejected
+user.initial! # Okay
+user.verified! # ActiveRecord::RecordInvalid: Validation failed: Status can't be changed from rejected to verified
 
 ```
 
